@@ -1,0 +1,6 @@
+build
+.envrc
+tall.parquet
+CMakeFiles
+data.jsonl
+.vscode
