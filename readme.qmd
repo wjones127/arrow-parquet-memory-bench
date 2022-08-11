@@ -55,7 +55,7 @@ data %>%
     facet_grid(~ row_group_size, labeller = label_both) + 
     labs(
       title="Peak memory usage determined by row_group_size",
-      subtitle="Batch size helps to a limited degree",
+      subtitle="Small batch size mitigates effect of large row groups",
       x = "Batch size (rows)",
       y = "Peak memory usage (bytes)",
       caption = "For each case, use_buffered_stream=true, use_threads=false, prebuffer=false."
