@@ -19,7 +19,7 @@ schema = pa.schema({"x": pa.float64(), "y": pa.float64(), "a": pa.int32(), "id":
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--rows-per-group", type=int, default=200_000)
-parser.add_argument("--n-groups", type=int, default=10)
+parser.add_argument("--n-groups", type=int, default=200)
 args = parser.parse_args()
 
 with pq.ParquetWriter('tall.parquet', schema)  as writer:

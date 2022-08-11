@@ -1,6 +1,8 @@
 ---
 title: "Parquet Read Memory Usage"
 format: gfm
+execute:
+  echo: false
 ---
 
 The benchmarks in this repo are designed to determine to what degree we currently
@@ -42,7 +44,8 @@ data %>%
       x = "Number of rows per row group",
       y = "Peak memory usage (bytes)",
       caption = "For each case, use_buffered_stream=true, use_threads=false, batch_size=65536 (default)."
-    )
+    ) +
+     scale_y_continuous(labels = function(x) gdata::humanReadable(ifelse(is.na(x), 0, x), standard="SI"))
 ```
 
 
@@ -50,16 +53,17 @@ data %>%
 ```{r group-size}
 data %>%
   filter(use_buffered_stream & !use_threads & !prebuffer) %>%
-  ggplot(aes(x = as.factor(batch_size), y = max_memory)) + 
+  ggplot(aes(x = as.factor(row_group_size), y = max_memory)) + 
     geom_col() +
-    facet_grid(~ row_group_size, labeller = label_both) + 
+    facet_grid(~ batch_size, labeller = label_both) + 
     labs(
-      title="Peak memory usage determined by row_group_size",
-      subtitle="Small batch size mitigates effect of large row groups",
-      x = "Batch size (rows)",
+      title="Peak memory usage determined by batch_size",
+      subtitle="There is still more overhead for large row groups",
+      x = "Number of rows per row group",
       y = "Peak memory usage (bytes)",
       caption = "For each case, use_buffered_stream=true, use_threads=false, prebuffer=false."
-    )
+    ) +
+     scale_y_continuous(labels = function(x) gdata::humanReadable(ifelse(is.na(x), 0, x), standard="SI"))
 ```
 
 
@@ -79,7 +83,8 @@ data %>%
       x = "size of stream buffer",
       y = "Peak memory usage (bytes)",
       caption = "For each case, use_threads=true, prebuffer=false, batch_size=65,536 (default)."
-    )
+    ) +
+     scale_y_continuous(labels = function(x) gdata::humanReadable(ifelse(is.na(x), 0, x), standard="SI"))
 ```
 
 
@@ -94,6 +99,7 @@ data %>%
       x = "use_threads=",
       y = "Peak memory usage (bytes)",
       caption = "In all cases shown, use_buffered_stream=true, prebuffer=false, and batch_size=65,536 (default)."
-    )
+    ) +
+     scale_y_continuous(labels = function(x) gdata::humanReadable(ifelse(is.na(x), 0, x), standard="SI"))
 ```
 
