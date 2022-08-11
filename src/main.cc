@@ -49,7 +49,7 @@ arrow::Status ReadParquet(ReaderSettings settings)
   arrow_reader_props.set_pre_buffer(settings.prebuffer);
 
   std::unique_ptr<parquet::arrow::FileReader> arrow_reader;
-  ARROW_RETURN_NOT_OK(parquet::arrow::FileReader::Make(pool, std::move(file_reader), &arrow_reader));
+  ARROW_RETURN_NOT_OK(parquet::arrow::FileReader::Make(pool, std::move(file_reader), arrow_reader_props, &arrow_reader));
 
   // std::shared_ptr<arrow::Table> table;
   // ARROW_RETURN_NOT_OK(arrow_reader->ReadTable(&table));
